@@ -1,5 +1,7 @@
+import AppConfig from "../config/AppConfig";
+
 class FeedbackService {
-    baseUrl="http://localhost:8088/api/v1/feedbacks";
+    baseUrl=`${AppConfig.api_url}/api/v1/feedbacks`;
 
     saveFeedback = async (feedbackRequest, token) => {
         const response = await fetch(this.baseUrl, {

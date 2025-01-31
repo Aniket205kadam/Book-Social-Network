@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/book_social_network2
-    username: postgres
-    password: 2004
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:${DATABASE_TYPE}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: ${DATABASE_DRIVER}
   jpa:
     hibernate:
       ddl-auto: create
@@ -11,32 +11,54 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: ${DATABASE_TYPE}
+    database-platform: ${DATABASE_DIALECT}
+
+# Config for the mail/dev
+#  mail:
+#    host: localhost
+#    port: 1025
+#    username: aniket
+#    password: aniket
+#    properties:
+#      smtp:
+#        trust: "*"
+#      auth: true
+#      starttls:
+#        enable: true
+#      connectiontimeout: 5000
+#      timeout: 3000
+#      writetimeout: 5000
+
+# Config for the gmail prod
   mail:
-    host: localhost
-    port: 1025
-    username: aniket
-    password: aniket
+    host: smtp.gmail.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
-      smtp:
-        trust: "*"
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
       auth: true
       starttls:
         enable: true
-      connectiontimeout: 5000
-      timeout: 3000
-      writetimeout: 5000
+      protocol: smtp
 application:
   security:
     jwt:
-      secret-key: dEHmGxg1Pd1xvTNdD2UBLQpYhc4FncMG5D-6qmTY6re0ZVgdPF4RN1xN9NEm5NtE0VWkbafCNdRJTN0FWbVDcg==
+      secret-key: ${APP_SECRET_KEY}
       expiration: 8640000 # token expires after one day
   mailing:
     frontend:
-      activation-url: http://localhost:5173/activate-account
+      url-local: ${APP_FRONTEND_URL_LOCAL}
+      url-prod: ${APP_FRONTEND_URL_PROD}
+      activation-url: ${APP_ACCOUNT_ACTIVATE_URL}
   file:
     upload:
-      photos-output-path: ./uploads
+      photos-output-path: ${APP_FILE_UPLOAD_URL}
 server:
   port: 8088

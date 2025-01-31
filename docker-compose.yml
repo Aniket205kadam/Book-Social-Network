@@ -1,27 +1,65 @@
 services:
-  #postgres:
-    #container_name: postgres-sql-bsn
-    #image: postgres
-    #environment:
-      #POSTGRES_USER: username
-      #POSTGRES_PASSWORD: password
-      #PGDATA: /var/lib/postgresql/data
-      #POSTGRES_DB: book_social_network
-    #volumes:
-      #- postgres:/var/lib/postgresql/data
-    #ports:
-      #- 5433:5432
-    #networks:
-      #- spring-app
-    #restart: unless-stopped
-  mail-dev:
-    container_name: mail-dev-bsn
-    image: maildev/maildev
+  postgres:
+    container_name: postgres-sql-bsn
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2004
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: book_social_network
+    volumes:
+      - postgres:/var/lib/postgresql/data
     ports:
-      - 1080:1080
-      - 1025:1025
+      - "5432:5432"
     networks:
       - spring-app
+    restart: unless-stopped
+  bsn-api:
+    container_name: bsn-api
+    image: aniket205kadam/bsn-api:1.0.0
+    ports:
+      - "8088:8088"
+    environment:
+      - DATABASE_TYPE=postgresql
+      - DATABASE_HOST=localhost
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=book_social_network
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=2004
+      - DATABASE_DRIVER=org.postgresql.Driver
+      - DATABASE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - MAIL_USERNAME=aniketrkadam205@gmail.com
+      - MAIL_PASSWORD=yzlswdctfgofhxle
+      - APP_SECRET_KEY=dEHmGxg1Pd1xvTNdD2UBLQpYhc4FncMG5D-6qmTY6re0ZVgdPF4RN1xN9NEm5NtE0VWkbafCNdRJTN0FWbVDcg==
+      - APP_ACCOUNT_ACTIVATE_URL=http://localhost:5173/activate-account
+      - APP_FILE_UPLOAD_URL=./uploads
+      - APP_FRONTEND_URL_LOCAL=http://localhost:5173
+      - APP_FRONTEND_URL_PROD=http://localhost:3000
+    networks:
+      - spring-app
+    depends_on:
+      - postgres
+  bsn-ui:
+    container_name: bsn-ui
+    image: aniket205kadam/bsn-ui:1.0.0
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_BSN_API_URL=http://localhost:8088
+    networks:
+      - spring-app
+    depends_on:
+      - bsn-api
+
+#  mail-dev:
+#    container_name: mail-dev-bsn
+#    image: maildev/maildev
+#    ports:
+#      - "1080:1080"
+#      - "1025:1025"
+#    networks:
+#      - spring-app
+
 networks:
   spring-app:
     driver: bridge

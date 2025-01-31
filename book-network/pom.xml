@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.aniketkadam</groupId>
 	<artifactId>book-network</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>book-network-api</name>
 	<description>Spring Boot for book social network</description>
 	<url/>
@@ -97,7 +97,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>book-social-network</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

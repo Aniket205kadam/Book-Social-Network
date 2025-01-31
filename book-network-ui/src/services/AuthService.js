@@ -1,10 +1,14 @@
+import AppConfig from "../config/AppConfig";
+
 class AuthService {
+  baseUrl = `${AppConfig.api_url}/api/v1/auth`;
+
   register = async ({ firstname, lastname, email, password }) => {
     if (!firstname || !lastname || !email || !password) {
       console.error("#AutheService>register>line4");
       throw new Error("Registration request is null");
     }
-    const apiUrl = "http://localhost:8088/api/v1/auth/register";
+    const apiUrl = `${this.baseUrl}/register`;
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -29,7 +33,7 @@ class AuthService {
       console.error("#AutheService>activateAccount>line29");
       throw new Error("token is null");
     }
-    const apiUrl = `http://localhost:8088/api/v1/auth/activate-account?token=${token}`;
+    const apiUrl = `${this.baseUrl}/activate-account?token=${token}`;
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
@@ -49,7 +53,7 @@ class AuthService {
       console.error("#AutheService>authenticate>line48");
       throw new Error("email or password is null");
     }
-    const apiUrl = "http://localhost:8088/api/v1/auth/authenticate";
+    const apiUrl = `${this.baseUrl}/authenticate`;
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -68,7 +72,7 @@ class AuthService {
   };
 
   resendEmail = async (email) => {
-    const apiUrl = `http://localhost:8088/api/v1/auth/activate-account/${email}`;
+    const apiUrl = `${this.baseUrl}/activate-account/${email}`;
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {

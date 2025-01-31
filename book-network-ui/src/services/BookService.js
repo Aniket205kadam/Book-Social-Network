@@ -1,5 +1,7 @@
+import AppConfig from "../config/AppConfig";
+
 class BookService {
-  baseUrl = `http://localhost:8088/api/v1/books`;
+  baseUrl = `${AppConfig.api_url}/api/v1/books`;
 
   getAllBooks = async (token, currPage, size) => {
     const apiUrl = `${this.baseUrl}?page=${currPage}&size=${size}`
@@ -207,7 +209,7 @@ class BookService {
   }
 
   getWishedBooks = async (token) => {
-    const apiUrl = `http://localhost:8088/api/v1/users/wish-list`;
+    const apiUrl = `${AppConfig.api_url}/api/v1/users/wish-list`;
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -222,7 +224,7 @@ class BookService {
   }
 
   addToWishList = async (token, bookId) => {
-    const apiUrl = `http://localhost:8088/api/v1/users/wish-list/${bookId}`;
+    const apiUrl = `${AppConfig.api_url}/api/v1/users/wish-list/${bookId}`;
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -237,7 +239,7 @@ class BookService {
   }
 
   toggleWishListIcon  = async (token, bookId) => {
-    const apiUrl = `http://localhost:8088/api/v1/users/books/wish-list/${bookId}`;
+    const apiUrl = `${AppConfig.api_url}/api/v1/users/books/wish-list/${bookId}`;
     const response = await fetch(apiUrl, {
       method: 'PATCH',
       headers: {

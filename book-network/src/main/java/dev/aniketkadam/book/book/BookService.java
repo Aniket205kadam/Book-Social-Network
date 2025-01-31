@@ -234,7 +234,10 @@ public class BookService {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + Paths.get(book.getBookCover()).toString().substring(Paths.get(book.getBookCover()).toString().lastIndexOf('\\')) + "\"")
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" + Paths.get(book.getBookCover()).getFileName().toString() + "\""
+                )
                 .body(resource);
     }
 }
