@@ -40,13 +40,3 @@ jobs:
          push: true
          platforms: linux/amd64
          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:${{ steps.extract_version.outputs.VERSION }}, ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:latest
-
-  deploy:
-    name: Deploy frontend
-    runs-on: ubuntu
-    needs: [ build-image ]
-    steps:
-      - name: Create deployment Folder
-        env:
-          RENDER_API_KEY ${{ secrets.RENDER_API_KEY }
-        run: |
